@@ -6,7 +6,7 @@
   transition:text-shadow 0.3s;
 }
 .glow-effect:hover{
-  text-shadow:0 0 10px white
+  text-shadow:0 0 2px white
 }
 .text-gradient{
   background:linear-gradient(to right,rgb(222, 112, 112),rgb(255, 255, 255));
@@ -14,7 +14,7 @@
   -webkit-text-fill-color: transparent;
 }
 .logo-gradient{
-  background:linear-gradient(to right,rgb(11, 11, 11),rgb(255, 255, 255));
+  background:linear-gradient(to right,rgb(222, 112, 112),rgb(255, 255, 255));
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -48,3 +48,13 @@
   font-size: 16px;
   
 }
+/* Custom CSS for additional spacing or styling */
+.custom-container {
+  padding: 16px;
+}
+
+.custom-qr-code {
+  margin-top: 32px;
+  text-align: center;
+}
+

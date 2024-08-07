@@ -11,6 +11,9 @@ dotenv.config();
 
 app.use(express.json());
 
+
+
+
 app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
     try {
         const { path } = req.file;
@@ -27,6 +30,8 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
 
         // Use Tesseract to extract text from the processed image
         const { data: { text } } = await Tesseract.recognize(path, 'eng');
+        
+        
 
         // Process the extracted text
         const extractedData = processExtractedTextAadhar(text);
