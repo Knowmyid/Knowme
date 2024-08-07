@@ -8,9 +8,9 @@ dataSources:
     name: AadhaarStorage
     network: polygon-amoy
     source:
-      address: "0xDb4dD9612b915a3746732cbc8ddE5E65baaee100"
+      address: "0x5F0B3beC42afe57002495e1fc4b41292CcC22887"
       abi: AadhaarStorage
-      startBlock: 10433519
+      startBlock: 10443165
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -21,6 +21,6 @@ dataSources:
         - name: AadhaarStorage
           file: ./abis/AadhaarStorage.json
       eventHandlers:
-        - event: AadhaarDetailsStored(indexed address,string,string,string,string)
+        - event: AadhaarDetailsStored(indexed address,string,string,string,string,string,string,string,string)
           handler: handleAadhaarDetailsStored
       file: ./src/aadhaar-storage.ts

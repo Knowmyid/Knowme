@@ -7,7 +7,11 @@ export function createAadhaarDetailsStoredEvent(
   name: string,
   dob: string,
   gender: string,
-  aadhaarNumber: string
+  aadhaarNumber: string,
+  fatherName: string,
+  userAddress: string,
+  pincode: string,
+  phoneNumber: string
 ): AadhaarDetailsStored {
   let aadhaarDetailsStoredEvent = changetype<AadhaarDetailsStored>(
     newMockEvent()
@@ -31,6 +35,24 @@ export function createAadhaarDetailsStoredEvent(
     new ethereum.EventParam(
       "aadhaarNumber",
       ethereum.Value.fromString(aadhaarNumber)
+    )
+  )
+  aadhaarDetailsStoredEvent.parameters.push(
+    new ethereum.EventParam("fatherName", ethereum.Value.fromString(fatherName))
+  )
+  aadhaarDetailsStoredEvent.parameters.push(
+    new ethereum.EventParam(
+      "userAddress",
+      ethereum.Value.fromString(userAddress)
+    )
+  )
+  aadhaarDetailsStoredEvent.parameters.push(
+    new ethereum.EventParam("pincode", ethereum.Value.fromString(pincode))
+  )
+  aadhaarDetailsStoredEvent.parameters.push(
+    new ethereum.EventParam(
+      "phoneNumber",
+      ethereum.Value.fromString(phoneNumber)
     )
   )
 

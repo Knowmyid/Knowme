@@ -22,12 +22,20 @@ describe("Describe entity assertions", () => {
     let dob = "Example string value"
     let gender = "Example string value"
     let aadhaarNumber = "Example string value"
+    let fatherName = "Example string value"
+    let userAddress = "Example string value"
+    let pincode = "Example string value"
+    let phoneNumber = "Example string value"
     let newAadhaarDetailsStoredEvent = createAadhaarDetailsStoredEvent(
       user,
       name,
       dob,
       gender,
-      aadhaarNumber
+      aadhaarNumber,
+      fatherName,
+      userAddress,
+      pincode,
+      phoneNumber
     )
     handleAadhaarDetailsStored(newAadhaarDetailsStoredEvent)
   })
@@ -71,6 +79,30 @@ describe("Describe entity assertions", () => {
       "AadhaarDetailsStored",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "aadhaarNumber",
+      "Example string value"
+    )
+    assert.fieldEquals(
+      "AadhaarDetailsStored",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+      "fatherName",
+      "Example string value"
+    )
+    assert.fieldEquals(
+      "AadhaarDetailsStored",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+      "userAddress",
+      "Example string value"
+    )
+    assert.fieldEquals(
+      "AadhaarDetailsStored",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+      "pincode",
+      "Example string value"
+    )
+    assert.fieldEquals(
+      "AadhaarDetailsStored",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+      "phoneNumber",
       "Example string value"
     )
 

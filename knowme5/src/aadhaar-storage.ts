@@ -12,6 +12,10 @@ export function handleAadhaarDetailsStored(
   entity.dob = event.params.dob
   entity.gender = event.params.gender
   entity.aadhaarNumber = event.params.aadhaarNumber
+  entity.fatherName = event.params.fatherName
+  entity.userAddress = event.params.userAddress
+  entity.pincode = event.params.pincode
+  entity.phoneNumber = event.params.phoneNumber
 
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp
