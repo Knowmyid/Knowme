@@ -3,7 +3,7 @@ import bg from '../assets/bg.png'
 
 const MainContent = () => {
   return (
-   <div className=' w-full flex justify-center p-4 bg-gradient-to-r from-[#555555] to-black'>
+   <div className=' w-[100%]  flex justify-center p-4 bg-gradient-to-r from-[#555555] to-black'>
   <div className='flex flex-col md:flex-row justify-center items-center space-x-4 w-full max-w-5xl'>
     <div className='h-96 flex flex-col justify-center items-center text-white md:w-1/2 w-full'>
       <h1 className='text-4xl text-black font-bold mb-4'>
