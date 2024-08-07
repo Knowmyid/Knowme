@@ -53,14 +53,14 @@ const processExtractedTextAadhar = (text) => {
     const dateRegex = /\b\d{4}-\d{2}-\d{2}\b|\b\d{2}\/\d{2}\/\d{4}\b/g;
     const genderMentionRegex = /\b(Male|Female|Other)\b/g;
     const aadhaarNumberRegex = /^\d{4}\s*\d{4}\s*\d{4}$/;
-    const fatherNameRegex = /\bS\/0:\s*([A-Za-z\s]+)\b/i;
+    const fatherNameRegex = /\bS\/[0O]:\s*([A-Za-z\s]+)\b/i;
     const phoneNumberRegex = /\b\d{10}\b/; // Assuming a 10-digit phone number format
     const pincodeRegex = /\b\d{6}\b/; // Assuming a 6-digit pincode format
 
     let name = '';
     let dob = '';
     let gender = '';
-    let aadhaarNumber = '';
+    let aadhaarNumber = ''; 
     let fatherName = '';
     let address = '';
     let phoneNumber = '';

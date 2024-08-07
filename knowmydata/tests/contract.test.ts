@@ -8,9 +8,9 @@ import {
 } from "matchstick-as/assembly/index"
 import { Address } from "@graphprotocol/graph-ts"
 import { AadhaarDetailsStored } from "../generated/schema"
-import { AadhaarDetailsStored as AadhaarDetailsStoredEvent } from "../generated/AadhaarStorage/AadhaarStorage"
-import { handleAadhaarDetailsStored } from "../src/aadhaar-storage"
-import { createAadhaarDetailsStoredEvent } from "./aadhaar-storage-utils"
+import { AadhaarDetailsStored as AadhaarDetailsStoredEvent } from "../generated/Contract/Contract"
+import { handleAadhaarDetailsStored } from "../src/contract"
+import { createAadhaarDetailsStoredEvent } from "./contract-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0

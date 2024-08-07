@@ -1,6 +1,6 @@
 import { newMockEvent } from "matchstick-as"
 import { ethereum, Address } from "@graphprotocol/graph-ts"
-import { AadhaarDetailsStored } from "../generated/AadhaarStorage/AadhaarStorage"
+import { AadhaarDetailsStored } from "../generated/Contract/Contract"
 
 export function createAadhaarDetailsStoredEvent(
   user: Address,

@@ -1,4 +1,4 @@
-import { AadhaarDetailsStored as AadhaarDetailsStoredEvent } from "../generated/AadhaarStorage/AadhaarStorage"
+import { AadhaarDetailsStored as AadhaarDetailsStoredEvent } from "../generated/Contract/Contract"
 import { AadhaarDetailsStored } from "../generated/schema"
 
 export function handleAadhaarDetailsStored(

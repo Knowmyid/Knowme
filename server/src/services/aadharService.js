@@ -14,42 +14,57 @@ const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
 const contractAddress = process.env.CONTRACT_ADDRESS;
 const abi = [
-    "function storeAadhaarDetails(string name, string dob, string gender, string aadhaarNumber, string fatherName, string address, string pincode, string phoneNumber) public",
-    "function getAadhaarDetails(address user) public view returns (tuple(string name, string dob, string gender, string aadhaarNumber, string fatherName, string address, string pincode, string phoneNumber))"
+    "function storeName(string memory _name) public",
+    "function storeDob(string memory _dob) public",
+    "function storeGender(string memory _gender) public",
+    "function storeAadhaarNumber(string memory _aadhaarNumber) public",
+    "function storeFatherName(string memory _fatherName) public",
+    "function storeUserAddress(string memory _userAddress) public",
+    "function storePincode(string memory _pincode) public",
+    "function storePhoneNumber(string memory _phoneNumber) public"
 ];
 const contract = new ethers.Contract(contractAddress, abi, wallet);
 
 const storeAadhaarDetails = async (details) => {
     try {
-        const tx = await contract.storeAadhaarDetails(
-            details.name,
-            details.dob,
-            details.gender,
-            details.aadhaarNumber,
-            details.fatherName,
-            details.address,
-            details.pincode,
-            details.phoneNumber
-        );
+        const tx = await contract.storeName(details.name);
         await tx.wait();
-        console.log('Transaction successful:', tx.hash);
+        console.log('Name stored:', tx.hash);
+
+        const tx2 = await contract.storeDob(details.dob);
+        await tx2.wait();
+        console.log('Date of Birth stored:', tx2.hash);
+
+        const tx3 = await contract.storeGender(details.gender);
+        await tx3.wait();
+        console.log('Gender stored:', tx3.hash);
+
+        const tx4 = await contract.storeAadhaarNumber(details.aadhaarNumber);
+        await tx4.wait();
+        console.log('Aadhaar Number stored:', tx4.hash);
+
+        const tx5 = await contract.storeFatherName(details.fatherName);
+        await tx5.wait();
+        console.log('Father Name stored:', tx5.hash);
+
+        const tx6 = await contract.storeUserAddress(details.userAddress);
+        await tx6.wait();
+        console.log('Address stored:', tx6.hash);
+
+        const tx7 = await contract.storePincode(details.pincode);
+        await tx7.wait();
+        console.log('Pincode stored:', tx7.hash);
+
+        const tx8 = await contract.storePhoneNumber(details.phoneNumber);
+        await tx8.wait();
+        console.log('Phone Number stored:', tx8.hash);
+
     } catch (error) {
         console.error('Error storing data on chain:', error);
         throw error;
     }
-};
-
-const getAadhaarDetails = async (userAddress) => {
-    try {
-        const details = await contract.getAadhaarDetails(userAddress);
-        return details;
-    } catch (error) {
-        console.error('Error retrieving data from chain:', error);
-        throw error;
-    }
-};
+}; 
 
 module.exports = {
-    storeAadhaarDetails,
-    getAadhaarDetails
+    storeAadhaarDetails
 };
