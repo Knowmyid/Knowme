@@ -13,7 +13,7 @@ dotenv.config();
 app.use(express.json());
 
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 4000, () => {
     console.log('Server is running');
 });
 
@@ -34,6 +34,8 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
 
         // Use Tesseract to extract text from the processed image
         const { data: { text } } = await Tesseract.recognize(path, 'eng');
+        
+        
 
         // Process the extracted text
         const extractedData = processExtractedTextAadhar(text);
@@ -120,7 +122,7 @@ const processExtractedTextAadhar = (text) => {
 };
 
 // Define the port
-const PORT = 4000;
+const PORT = 7000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
