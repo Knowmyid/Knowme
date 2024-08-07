@@ -49,35 +49,6 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
     }
 });
 
-app.post('/api/upload/voterId', upload.single('voterId'), async (req, res) => {
-    try {
-        const { path } = req.file;
-        const image = await Jimp.read(path);
-
-        image
-            .resize(1024, Jimp.AUTO)
-            .quality(80)
-            .contrast(0.5)
-            .greyscale()
-            .blur(1)
-            .normalize()
-            .writeAsync(path);
-
-        // Use Tesseract to extract text from the processed image
-        const { data: { text } } = await Tesseract.recognize(path, 'eng');
-
-        // Process the extracted text
-        const extractedData = processExtractedText(text);
-        console.log("Data: " + JSON.stringify(extractedData))
-
-        res.status(200).json({extractedData});
-
-    } catch (error) {
-        console.error("Error processing image:", error);
-        res.status(500).json({ error: 'Error processing image' });
-    }
-})
-
 const processExtractedTextAadhar = (text) => {
     const lines = text.split('\n').map(line => line.trim()).filter(line => line);
     const nameRegex = /\b([A-Z][a-z]+)(\s[A-Z][a-z]+){0,4}\b/g;
@@ -118,6 +89,16 @@ const processExtractedTextAadhar = (text) => {
         aadhaarNumber,
     };
 };
+
+app.get('/api/aadhar/details', async (req, res) => {
+    try {
+        const details = await fetchAadhaarDetails();
+        res.status(200).json(details);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
 
 // Define the port
 const PORT = 4000;
