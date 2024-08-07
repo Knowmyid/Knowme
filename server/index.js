@@ -8,15 +8,10 @@ const dotenv = require('dotenv');
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
-
+ 
 dotenv.config();
 
 app.use(express.json());
-
-
-app.listen(process.env.PORT || 3000, () => {
-    console.log('Server is running');
-});
 
 
 app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
