@@ -8,7 +8,7 @@ import HomePage from './pages/homePage';
 function App() {
   return (
     <div>
-      <HomePage />
+      <AadhaarUpload />
     </div>
   );
 }

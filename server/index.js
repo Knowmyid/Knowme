@@ -4,6 +4,9 @@ const Tesseract = require('tesseract.js');
 const Jimp = require('jimp');
 const { storeAadhaarDetails } = require("./src/services/aadharService");
 const dotenv = require('dotenv');
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
@@ -12,9 +15,9 @@ dotenv.config();
 app.use(express.json());
 
 app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
+    const { path: filePath } = req.file;
     try {
-        const { path } = req.file;
-        const image = await Jimp.read(path);
+        const image = await Jimp.read(filePath);
 
         image
             .resize(1024, Jimp.AUTO)
@@ -23,22 +26,55 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
             .greyscale()
             .blur(1)
             .normalize()
-            .writeAsync(path);
+            .writeAsync(filePath);
 
         // Use Tesseract to extract text from the processed image
-        const { data: { text } } = await Tesseract.recognize(path, 'eng');
+        const { data: { text } } = await Tesseract.recognize(filePath, 'eng');
 
         // Process the extracted text
         const extractedData = processExtractedTextAadhar(text);
 
         console.log("Data: " + JSON.stringify(extractedData));
 
+        const encryptionKey = crypto.randomBytes(32);
+
+        // Encrypt each field in the extracted data
+        const encryptedData = {};
+        for (const [key, value] of Object.entries(extractedData)) {
+            if (value) {
+                const { iv, encryptedData: encData, authTag } = encryptText(value, encryptionKey);
+                encryptedData[key] = { iv, encryptedData: encData, authTag };
+            }
+        }
+
+        console.log("Encrypted Data: " + JSON.stringify(encryptedData));
+
+
+
         await storeAadhaarDetails(extractedData);
+
+        // Delete the file after processing
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error("Failed to delete the file:", err);
+            } else {
+                console.log("File deleted successfully");
+            }
+        });
 
         res.status(200).json(extractedData);
     } catch (error) {
         console.error("Error processing image:", error);
         res.status(500).json({ error: 'Error processing image' });
+
+        // Attempt to delete the file even if there's an error
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error("Failed to delete the file:", err);
+            } else {
+                console.log("File deleted successfully");
+            }
+        });
     }
 });
 
@@ -82,7 +118,7 @@ const processExtractedTextAadhar = (text) => {
     if (aadhaarNumberMatch) {
         aadhaarNumber = aadhaarNumberMatch.match(aadhaarNumberRegex)[0];
     }
-    
+
     const fatherNameMatch = text.match(fatherNameRegex);
     if (fatherNameMatch) {
         console.log("Pattern Match: " + fatherNameMatch)
@@ -124,7 +160,34 @@ const processExtractedTextAadhar = (text) => {
         pincode,
         phoneNumber
     };
+
 };
+
+
+function encryptText(text, key) {
+    const iv = crypto.randomBytes(12); // Generate a new IV for each encryption
+    const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    const authTag = cipher.getAuthTag().toString('hex');
+
+    return {
+        iv: iv.toString('hex'),
+        encryptedData: encrypted,
+        authTag: authTag
+    };
+}
+
+// Decryption function
+function decryptText(encryptedData, key, iv, authTag) {
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, Buffer.from(iv, 'hex'));
+    decipher.setAuthTag(Buffer.from(authTag, 'hex'));
+
+    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
 
 // Define the port
 const PORT = 4000;
