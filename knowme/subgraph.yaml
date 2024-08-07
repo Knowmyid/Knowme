@@ -1,0 +1,26 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: AadhaarStorage
+    network: polygon-amoy
+    source:
+      address: "0xDb4dD9612b915a3746732cbc8ddE5E65baaee100"
+      abi: AadhaarStorage
+      startBlock: 10433519
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AadhaarDetailsStored
+      abis:
+        - name: AadhaarStorage
+          file: ./abis/AadhaarStorage.json
+      eventHandlers:
+        - event: AadhaarDetailsStored(indexed address,string,string,string,string)
+          handler: handleAadhaarDetailsStored
+      file: ./src/aadhaar-storage.ts

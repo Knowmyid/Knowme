@@ -3,15 +3,15 @@ import Header from '../components/Header'
 import MainContent from '../components/MainContent'
 import Footer from '../components/Footer'
 import DataRetrieve from '../components/DataRetrieve'
-import { Outlet } from 'react-router-dom'
 
 
 const HomePage = () => {
-   
+ 
     return (
       <div>
       <Header/>
-      <Outlet/>
+      <MainContent/>
+      <DataRetrieve aadharData={aadharData}/>
       <Footer/>
       </div>
       

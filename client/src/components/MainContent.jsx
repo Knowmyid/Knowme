@@ -17,7 +17,7 @@ const MainContent = () => {
       <p className='text-gradient text-xl md:text:2xl font-bold shadow-xl rounded-full p-1'>Scan the QR Code above to Go</p>
     </div>
     <div className='md:w-1/2 w-full flex justify-center'>
-      <img src={bg} alt='img' className='w-[500px] md:w-[800px]'/>
+      <img src={bg} alt='img' className='w-[500px]'/>
     </div>
   </div>
 </div>

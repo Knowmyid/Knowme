@@ -10,6 +10,7 @@ import { FaUserFriends } from "react-icons/fa";
 const AadharForm = ({ aadharData = {} }) => {
   const [selectedDetails, setSelectedDetails] = useState([]);
   const [qrData, setQrData] = useState('');
+  console.log(JSON.stringify(aadharData));
 
   const handleCheckboxChange = (detail) => {
     setSelectedDetails((prevSelected) =>
@@ -17,6 +18,8 @@ const AadharForm = ({ aadharData = {} }) => {
         ? prevSelected.filter((item) => item !== detail)
         : [...prevSelected, detail]
     );
+    console.log(JSON.stringify(selectedDetails));
+
   };
 
   const handleSubmit = (e) => {
@@ -25,6 +28,7 @@ const AadharForm = ({ aadharData = {} }) => {
       acc[detail] = aadharData[detail];
       return acc;
     }, {});
+    console.log(JSON.stringify(dataToShare)); 
     setQrData(JSON.stringify(dataToShare));
   };
 
