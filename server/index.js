@@ -2,9 +2,21 @@ const express = require('express');
 const multer = require('multer');
 const Tesseract = require('tesseract.js');
 const Jimp = require('jimp');
+const {storeAadhaarDetails} = require("./src/services/aadharService")
+const dotenv = require('dotenv');
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
+  
+dotenv.config();
+
+app.use(express.json());
+
+
+app.listen(process.env.PORT || 3000, () => {
+    console.log('Server is running');
+});
+
 
 app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
     try {
@@ -25,7 +37,10 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
 
         // Process the extracted text
         const extractedData = processExtractedTextAadhar(text);
+    
         console.log("Data: " + JSON.stringify(extractedData))
+
+        await storeAadhaarDetails(extractedData);
 
         res.status(200).json(extractedData);
     } catch (error) {
