@@ -1,0 +1,11 @@
+type AadhaarDetailsStored @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  name: String! # string
+  dob: String! # string
+  gender: String! # string
+  aadhaarNumber: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

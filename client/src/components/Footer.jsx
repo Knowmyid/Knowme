@@ -1,24 +1,24 @@
-import React from 'react'
-import logo from '../assets/logo.png'
+import React from 'react';
+import logo from '../assets/logo.png';
 
 const Footer = () => {
   return (
-    <div className='w-[100%]'>
+    <div className='w-full'>
       <footer className='bg-gradient-to-r from-[#555555] to-black text-white p-4'>
-        <div className='container flex justify-between flex-row mx-auto text-center'>
-            <img src={logo} alt='logoo' className='h-[80px]'/>
-            <p className='p-2 text-left'>Location: GT Goviea Suites,Hacker House Goa,Goa</p>
-            <div className='flex flex-col overflow-auto flex-wrap'>
-            <p className='p-1 overflow-auto'>Contact:goutamkumar.sharmq@gmail.com</p>
-            <p className='text-start pl-0.5 overflow-auto'>Phone: 858935035603</p>
-            </div>
+        <div className='container mx-auto flex flex-col md:flex-row justify-between items-center md:items-start text-center md:text-left'>
+          <img src={logo} alt='logo' className='h-[80px] mb-4 md:mb-0' />
+          <p className='md:mr-8 mb-4 md:mb-0'>Location: GT Goviea Suites, Hacker House Goa, Goa</p>
+          <div className='flex flex-col md:items-start'>
+            <p className='mb-1'>Contact: goutamkumar.sharmq@gmail.com</p>
+            <p>Phone: 858935035603</p>
+          </div>
         </div>
-        <div className='flex flex-row mx-auto justify-center'>
-        <p>&copy;2024 Knowme.All rights reserved</p>
+        <div className='flex justify-center mt-4'>
+          <p>&copy;2024 Knowme. All rights reserved.</p>
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
 export default Footer;

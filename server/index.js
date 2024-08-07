@@ -14,6 +14,9 @@ dotenv.config();
 
 app.use(express.json());
 
+
+
+
 app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
     const { path: filePath } = req.file;
     try {
@@ -160,31 +163,6 @@ const processExtractedTextAadhar = (text) => {
     };
 
 };
-
-function encryptText(text, key) {
-    const iv = crypto.randomBytes(12); // Generate a new IV for each encryption
-    const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
-
-    let encrypted = cipher.update(text, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    const authTag = cipher.getAuthTag().toString('hex');
-
-    return {
-        iv: iv.toString('hex'),
-        encryptedData: encrypted,
-        authTag: authTag
-    };
-}
-
-// Decryption function
-function decryptText(encryptedData, key, iv, authTag) {
-    const decipher = crypto.createDecipheriv('aes-256-gcm', key, Buffer.from(iv, 'hex'));
-    decipher.setAuthTag(Buffer.from(authTag, 'hex'));
-
-    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
-    return decrypted;
-}
 
 // Define the port
 const PORT = 4000;
