@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import QRCode from 'qrcode.react';
 import CustomCheckbox from '../components/CustomCheck';
 import { FaUser, FaCalendar, FaHome, FaPhone } from 'react-icons/fa'; // Example icons from react-icons
-import gif from '../assets/gif.gif'
+// import gif from '../assets/gif.gif'
 
 const AadharForm = ({ aadharData = {}, }) => {
   const [selectedDetails, setSelectedDetails] = useState([]);
@@ -36,7 +36,7 @@ const AadharForm = ({ aadharData = {}, }) => {
     <div className="w-full mx-auto p-4 flex h-[500px] flex-col items-center bg-cover bg-center" style={{ backgroundImage: "url(/giffy.gif)" }}>
   <div className="flex flex-col md:flex-row items-start w-full max-w-4xl">
     <div className="md:w-1/3 w-full flex justify-center mb-4 md:mb-0">
-      <img src={gif} alt='img'/>
+      {/* <img src={gif} alt='img'/> */}
     </div>
     <div className="md:w-2/3 w-full flex flex-col items-center md:items-end">
       <h2 className="text-2xl font-bold mb-4">Select Aadhar Details to Share</h2>
