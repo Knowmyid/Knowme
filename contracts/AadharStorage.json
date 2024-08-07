@@ -31,6 +31,30 @@
           "internalType": "string",
           "name": "aadhaarNumber",
           "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "fatherName",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "userAddress",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "pincode",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "phoneNumber",
+          "type": "string"
         }
       ],
       "name": "AadhaarDetailsStored",
@@ -64,6 +88,26 @@
         {
           "internalType": "string",
           "name": "aadhaarNumber",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "fatherName",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "userAddress",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "pincode",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "phoneNumber",
           "type": "string"
         }
       ],
@@ -108,6 +152,26 @@
               "internalType": "string",
               "name": "aadhaarNumber",
               "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "fatherName",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "userAddress",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "pincode",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "phoneNumber",
+              "type": "string"
             }
           ],
           "internalType": "struct AadhaarStorage.AadhaarDetails",
@@ -122,26 +186,50 @@
       "inputs": [
         {
           "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_dob",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_gender",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
           "name": "_aadhaarNumber",
           "type": "string"
         }
       ],
-      "name": "storeAadhaarDetails",
+      "name": "storeAadhaarNumber",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_dob",
+          "type": "string"
+        }
+      ],
+      "name": "storeDob",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_fatherName",
+          "type": "string"
+        }
+      ],
+      "name": "storeFatherName",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_gender",
+          "type": "string"
+        }
+      ],
+      "name": "storeGender",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -152,24 +240,48 @@
           "internalType": "string",
           "name": "_name",
           "type": "string"
-        },
+        }
+      ],
+      "name": "storeName",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
         {
           "internalType": "string",
-          "name": "_dob",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_gender",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_aadhaarNumber",
+          "name": "_phoneNumber",
           "type": "string"
         }
       ],
-      "name": "updateAadhaarDetails",
+      "name": "storePhoneNumber",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_pincode",
+          "type": "string"
+        }
+      ],
+      "name": "storePincode",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_userAddress",
+          "type": "string"
+        }
+      ],
+      "name": "storeUserAddress",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

@@ -14,17 +14,22 @@ const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
 const contractAddress = process.env.CONTRACT_ADDRESS;
 const abi = [
-    "function storeDetails(string memory name, string memory dob, string memory gender, string memory aadhaarNumber) public"
+    "function storeAadhaarDetails(string name, string dob, string gender, string aadhaarNumber, string fatherName, string address, string pincode, string phoneNumber) public",
+    "function getAadhaarDetails(address user) public view returns (tuple(string name, string dob, string gender, string aadhaarNumber, string fatherName, string address, string pincode, string phoneNumber))"
 ];
 const contract = new ethers.Contract(contractAddress, abi, wallet);
 
 const storeAadhaarDetails = async (details) => {
     try {
-        const tx = await contract.storeDetails(
+        const tx = await contract.storeAadhaarDetails(
             details.name,
             details.dob,
             details.gender,
-            details.aadhaarNumber
+            details.aadhaarNumber,
+            details.fatherName,
+            details.address,
+            details.pincode,
+            details.phoneNumber
         );
         await tx.wait();
         console.log('Transaction successful:', tx.hash);
@@ -34,6 +39,17 @@ const storeAadhaarDetails = async (details) => {
     }
 };
 
+const getAadhaarDetails = async (userAddress) => {
+    try {
+        const details = await contract.getAadhaarDetails(userAddress);
+        return details;
+    } catch (error) {
+        console.error('Error retrieving data from chain:', error);
+        throw error;
+    }
+};
+
 module.exports = {
-    storeAadhaarDetails
+    storeAadhaarDetails,
+    getAadhaarDetails
 };
