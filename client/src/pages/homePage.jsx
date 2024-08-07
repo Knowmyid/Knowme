@@ -16,7 +16,7 @@ const HomePage = () => {
     return (
       <div>
       <Header/>
-      {/* <MainContent/> */}
+      <MainContent/>
       <DataRetrieve aadharData={aadharData}/>
       <Footer/>
       </div>
