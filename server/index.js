@@ -49,8 +49,6 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
 
         console.log("Encrypted Data: " + JSON.stringify(encryptedData));
 
-
-
         await storeAadhaarDetails(extractedData);
 
         // Delete the file after processing
@@ -163,7 +161,6 @@ const processExtractedTextAadhar = (text) => {
 
 };
 
-
 function encryptText(text, key) {
     const iv = crypto.randomBytes(12); // Generate a new IV for each encryption
     const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
@@ -195,3 +192,4 @@ const PORT = 4000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
