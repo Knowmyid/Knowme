@@ -1,13 +1,14 @@
+
 const express = require('express');
 const multer = require('multer');
 const Tesseract = require('tesseract.js');
 const Jimp = require('jimp');
-const {storeAadhaarDetails} = require("./src/services/aadharService")
+const { storeAadhaarDetails } = require("./src/services/aadharService")
 const dotenv = require('dotenv');
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
-  
+
 dotenv.config();
 
 app.use(express.json());
@@ -37,7 +38,7 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
 
         // Process the extracted text
         const extractedData = processExtractedTextAadhar(text);
-    
+
         console.log("Data: " + JSON.stringify(extractedData))
 
         await storeAadhaarDetails(extractedData);
@@ -70,7 +71,7 @@ app.post('/api/upload/voterId', upload.single('voterId'), async (req, res) => {
         const extractedData = processExtractedText(text);
         console.log("Data: " + JSON.stringify(extractedData))
 
-        res.status(200).json({extractedData});
+        res.status(200).json({ extractedData });
 
     } catch (error) {
         console.error("Error processing image:", error);
