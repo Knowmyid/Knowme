@@ -7,15 +7,14 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 const upload = multer({ dest: 'uploads/' });
 dotenv.config();
-
 app.use(express.json());
-
-
-
 
 app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
     const { path: filePath } = req.file;
@@ -27,7 +26,7 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
             .quality(80)
             .contrast(0.5)
             .greyscale()
-            .blur(1)
+            .blur(1) 
             .normalize()
             .writeAsync(filePath);
 
@@ -52,7 +51,7 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
 
         console.log("Encrypted Data: " + JSON.stringify(encryptedData));
 
-        await storeAadhaarDetails(extractedData);
+        // await storeAadhaarDetails(encryptedData);
 
         // Delete the file after processing
         fs.unlink(filePath, (err) => {
@@ -63,7 +62,12 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
             }
         });
 
-        res.status(200).json(extractedData);
+        const token = jwt.sign({ id: extractedData.aadhaarNumber }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const responsePayload = { data: extractedData, token };
+        console.log('Sending response:', responsePayload);
+
+        res.setHeader('Content-Type', 'application/json');
+        res.status(201).json(responsePayload);
     } catch (error) {
         console.error("Error processing image:", error);
         res.status(500).json({ error: 'Error processing image' });
@@ -85,13 +89,13 @@ const processExtractedTextAadhar = (text) => {
     const dateRegex = /\b\d{4}-\d{2}-\d{2}\b|\b\d{2}\/\d{2}\/\d{4}\b/g;
     const genderMentionRegex = /\b(Male|Female|Other)\b/g;
     const aadhaarNumberRegex = /^\d{4}\s*\d{4}\s*\d{4}$/;
-    const fatherNameRegex = /\bS\/0:\s*([A-Za-z\s]+)\b/i;
+    const fatherNameRegex = /\bS\/[0O]:\s*([A-Za-z\s]+)\b/i;
     const phoneNumberRegex = /\b\d{10}\b/; // Assuming a 10-digit phone number format
     const pincodeRegex = /\b\d{6}\b/; // Assuming a 6-digit pincode format
 
     let name = '';
     let dob = '';
-    let gender = '';
+    let gender = ''; 
     let aadhaarNumber = '';
     let fatherName = '';
     let address = '';
@@ -99,7 +103,6 @@ const processExtractedTextAadhar = (text) => {
     let pincode = '';
 
     for (let i = 0; i < lines.length; i++) {
-        console.log(`Processing line: ${lines[i]}`); // Debugging line
         if (dateRegex.test(lines[i])) {
             dob = lines[i].match(dateRegex)[0];
 
@@ -122,7 +125,6 @@ const processExtractedTextAadhar = (text) => {
 
     const fatherNameMatch = text.match(fatherNameRegex);
     if (fatherNameMatch) {
-        console.log("Pattern Match: " + fatherNameMatch)
         fatherName = fatherNameMatch[0].replace('S/O:', '').trim();
     }
 
@@ -163,6 +165,31 @@ const processExtractedTextAadhar = (text) => {
     };
 
 };
+
+function encryptText(text, key) {
+    const iv = crypto.randomBytes(12); // Generate a new IV for each encryption
+    const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    const authTag = cipher.getAuthTag().toString('hex');
+
+    return {
+        iv: iv.toString('hex'),
+        encryptedData: encrypted,
+        authTag: authTag
+    };
+}
+
+// Decryption function
+function decryptText(encryptedData, key, iv, authTag) {
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, Buffer.from(iv, 'hex'));
+    decipher.setAuthTag(Buffer.from(authTag, 'hex'));
+
+    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
 
 // Define the port
 const PORT = 4000;
