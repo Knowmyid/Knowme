@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import QRCode from 'qrcode.react';
 import CustomCheckbox from '../components/CustomCheck.jsx';
-import { FaUser, FaCalendar, FaHome, FaPhone } from 'react-icons/fa'; // Example icons from react-icons
+import { FaUser, FaCalendar, FaHome, FaPhone, FaGenderless } from 'react-icons/fa'; // Example icons from react-icons
 import { HiIdentification } from "react-icons/hi2";
 import { TbMapPinCode } from "react-icons/tb";
 import gif1 from '../assets/gif1.gif';
@@ -38,14 +38,15 @@ const DataRetrieve = () => {
     name: <FaUser />,
     dob: <FaCalendar />,
     address: <FaHome />,
-    phone: <FaPhone />,
-    father: <FaUserFriends />,
+    gender: <FaGenderless />,
+    phoneNumber: <FaPhone />,
+    fatherName: <FaUserFriends />,
     pincode: <TbMapPinCode />,
-    aadhar: <HiIdentification />,
+    aadhaarNumber: <HiIdentification />,
   };
 
   return (
-    <div className="min-h-screen w-full mx-auto p-4 flex flex-col items-center justify-center bg-gradient-to-r from-[#555555] to-black">
+    <div className="min-h-screen w-full mx-auto p-4 flex flex-col items-center justify-center bg-discount-gradient">
       <div className="flex flex-col md:flex-row items-start w-full max-w-4xl gap-8">
         <div className="md:w-1/3 w-full flex justify-center mb-4 md:mb-0">
           <img src={gif1} alt='img' className='w-[300px] rounded-full'/>

@@ -24,7 +24,7 @@ const AadhaarUpload = () => {
     };
 
     return (
-        <div className='min-h-screen w-full h-[100vh] mx-auto p-4 flex flex-col md:flex-row items-center justify-center bg-gradient-to-r from-[#555555] to-black'>
+        <div className='min-h-screen w-full h-[100vh] mx-auto p-4 flex flex-col md:flex-row items-center justify-center bg-discount-gradient'>
             <img src={up} alt='up' className='w-[500px] mb-6'/>  
             <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md mb-20'>
                 <h2 className='text-2xl font-semibold mb-4 text-center'>Upload Aadhaar Document</h2>
