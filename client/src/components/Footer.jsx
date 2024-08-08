@@ -5,7 +5,7 @@ import { FaFacebook,FaTwitter,FaInstagram,FaLinkedin} from 'react-icons/fa'
 const Footer = () => {
   return (
     <div className='w-full'>
-      <footer className='bg-gradient-to-r from-[#555555] to-black text-white p-6'>
+      <footer className=' bg-gray-900 text-white p-6 mt-10'>
         <div className='container mx-auto flex flex-col md:flex-row justify-between items-center md:items-start text-center md:text-left'>
           <div className='flex flex-col items-center md:items-start mb-6 md:mb-4'>
           <img src={logo} alt='logo' className='h-[80px] mb-4 ' />

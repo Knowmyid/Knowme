@@ -6,7 +6,7 @@ import Body from './components/Body';
 function App() {
   
   return (
-    <div>
+    <div className='bg-primary'>
       <Body />
     </div>
   );

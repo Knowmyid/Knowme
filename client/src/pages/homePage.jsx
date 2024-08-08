@@ -7,17 +7,10 @@ import { Outlet } from 'react-router-dom'
 
 
 const HomePage = () => {
-    const aadharData = {
-        name: 'John Doe',
-        dob: '01/01/1990',
-        address: '123 Main St, Anytown, India',
-        phone: '1234567890',
-      };
     return (
-      <div>
+       <div className='bg-primary'>
       <Header/>
       <Outlet/>
-      <hr/>
       <Footer/>
       </div>
       
