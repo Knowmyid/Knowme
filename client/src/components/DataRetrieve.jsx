@@ -6,8 +6,11 @@ import { HiIdentification } from "react-icons/hi2";
 import { TbMapPinCode } from "react-icons/tb";
 import gif1 from '../assets/gif1.gif';
 import { FaUserFriends } from "react-icons/fa";
+import { useLocation } from 'react-router-dom';
 
-const AadharForm = ({ aadharData = {} }) => {
+const DataRetrieve = () => {
+  const location = useLocation();
+  const aadharData = location.state?.aadharData || {};
   const [selectedDetails, setSelectedDetails] = useState([]);
   const [qrData, setQrData] = useState('');
   console.log(JSON.stringify(aadharData));
@@ -19,7 +22,6 @@ const AadharForm = ({ aadharData = {} }) => {
         : [...prevSelected, detail]
     );
     console.log(JSON.stringify(selectedDetails));
-
   };
 
   const handleSubmit = (e) => {
@@ -100,4 +102,4 @@ const AadharForm = ({ aadharData = {} }) => {
   );
 };
 
-export default AadharForm;
+export default DataRetrieve;

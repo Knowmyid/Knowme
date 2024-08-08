@@ -17,18 +17,18 @@ const AadhaarUpload = () => {
         try {
             const data = await apiClient.uploadAadhaar(file);
             console.log('Data uploaded successfully:', data);
-            navigate('/data'); 
+            navigate('/data', { state: { aadharData: data.data } }); 
         } catch (error) {
             console.error('Error uploading file:', error);
         }
     };
 
     return (
-        <div className='min-h-screen w-full h-[100vh] mx-auto p-4 flex flex-col items-center justify-center bg-gradient-to-r from-[#555555] to-black'>
+        <div className='min-h-screen w-full h-[100vh] mx-auto p-4 flex flex-col md:flex-row items-center justify-center bg-gradient-to-r from-[#555555] to-black'>
             <img src={up} alt='up' className='w-[500px] mb-6'/>  
-            <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md'>
+            <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md mb-20'>
                 <h2 className='text-2xl font-semibold mb-4 text-center'>Upload Aadhaar Document</h2>
-                <form onSubmit={handleSubmit} className='flex flex-col items-center'>
+                <form onSubmit={handleSubmit} className='flex flex-col items-center '>
                     <input 
                         type="file" 
                         onChange={handleFileChange} 

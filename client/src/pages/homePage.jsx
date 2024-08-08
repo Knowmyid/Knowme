@@ -17,6 +17,7 @@ const HomePage = () => {
       <div>
       <Header/>
       <Outlet/>
+      <hr/>
       <Footer/>
       </div>
       
