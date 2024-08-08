@@ -1,0 +1,71 @@
+type AadhaarNumberStored @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  aadhaarNumber: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DobStored @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  dob: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FatherNameStored @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  fatherName: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type GenderStored @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  gender: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NameStored @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  name: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PhoneNumberStored @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  phoneNumber: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PincodeStored @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  pincode: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UserAddressStored @entity(immutable: true) {
+  id: Bytes!
+  user: Bytes! # address
+  userAddress: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

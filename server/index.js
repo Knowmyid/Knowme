@@ -36,8 +36,6 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
         // Process the extracted text
         const extractedData = processExtractedTextAadhar(text);
 
-        console.log("Data: " + JSON.stringify(extractedData));
-
         await storeAadhaarDetails(extractedData);
 
         res.status(200).json(extractedData);
@@ -67,7 +65,6 @@ const processExtractedTextAadhar = (text) => {
     let pincode = '';
 
     for (let i = 0; i < lines.length; i++) {
-        console.log(`Processing line: ${lines[i]}`); // Debugging line
         if (dateRegex.test(lines[i])) {
             dob = lines[i].match(dateRegex)[0];
 
