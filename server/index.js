@@ -49,9 +49,11 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
             }
         }
 
-        console.log("Encrypted Data: " + JSON.stringify(encryptedData));
+        // console.log("Encrypted Data: " + JSON.stringify(encryptedData));
 
-        // await storeAadhaarDetails(encryptedData);
+        await storeAadhaarDetails(
+            extractedData
+        );
 
         // Delete the file after processing
         fs.unlink(filePath, (err) => {
@@ -61,7 +63,7 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
                 console.log("File deleted successfully");
             }
         });
-
+ 
         const token = jwt.sign({ id: extractedData.aadhaarNumber }, process.env.JWT_SECRET, { expiresIn: '1h' });
         const responsePayload = { data: extractedData, token };
         console.log('Sending response:', responsePayload);
