@@ -72,7 +72,7 @@ const DataRetrieve = () => {
             >
               Generate QR Code
             </button>
-          </form>
+          </form> 
           {qrData && (
             <div className="flex flex-col mt-8 text-center md:text-right w-full items-center"> {/* Ensure it takes full width */}
               <h3 className="text-lg text-white font-semibold mb-2">Generated QR Code</h3>
