@@ -3,7 +3,8 @@ This project integrates with [AnonAadhar](https://github.com/anon-aadhaar/anon-a
 
 ## Overview
 VOID allows users to upload their Aadhaar or other documents for verification. Once the document is verified and authenticated, users can filter their Aadhaar details and generate a QR code that can be scanned to reveal the selected information.
-Refer to this given video for the working of the project [VOID](https://www.youtube.com/watch?v=jxPi742b5sE)
+Refer to this given video for the working of the project
+[https://www.youtube.com/watch?v=jxPi742b5sE](https://www.youtube.com/watch?v=jxPi742b5sE)
 
 ### To review the working of the deployed site visit [VOID](https://knowme-zc44.onrender.com/)
 
