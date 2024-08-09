@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import * as apiClient from '../apiClient.js';
+import { generateArgs, init, prove, artifactUrls } from '@anon-aadhaar/core';
 import up from '../assets/up.png';
 import { useNavigate } from 'react-router-dom';
 import { extractQrData } from '../utils/extractQrData';
-import { generateArgs, init, prove, artifactUrls } from '@anon-aadhaar/core';
+
 
 const AadhaarUpload = () => {
     const [file, setFile] = useState(null);
