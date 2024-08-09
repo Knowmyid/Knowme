@@ -46,8 +46,8 @@ const DataRetrieve = () => {
   };
 
   return (
-    <div className="min-h-screen w-full mx-auto p-4 flex flex-col items-center justify-center bg-discount-gradient">
-      <div className="flex flex-col md:flex-row items-start w-full max-w-4xl gap-8">
+    <div className="min-h-screen w-full mx-auto p-4 flex flex-col items-center justify-start bg-discount-gradient">
+      <div className="flex flex-col md:flex-row items-center w-full max-w-4xl gap-8">
         <div className="md:w-1/3 w-full flex justify-center mb-4 md:mb-0">
           <img src={gif1} alt='img' className='w-[300px] rounded-full'/>
         </div>
@@ -74,9 +74,9 @@ const DataRetrieve = () => {
             </button>
           </form>
           {qrData && (
-            <div className="flex flex-col mt-8 text-center md:text-right w-full"> {/* Ensure it takes full width */}
+            <div className="flex flex-col mt-8 text-center md:text-right w-full items-center"> {/* Ensure it takes full width */}
               <h3 className="text-lg text-white font-semibold mb-2">Generated QR Code</h3>
-              <div className="flex justify-center md:justify-end w-full"> {/* Center align in small screens */}
+              <div className="flex justify-center items-center md:justify-end w-full"> {/* Center align in small screens */}
                 <QRCode
                   value={qrData}
                   size={200}
@@ -85,14 +85,7 @@ const DataRetrieve = () => {
                   level="Q"
                   includeMargin={true}
                   renderAs="svg"
-                  imageSettings={{
-                    src: "/download.jpg",
-                    x: null,
-                    y: null,
-                    height: 24,
-                    width: 24,
-                    excavate: true,
-                  }}
+                  
                 />
               </div>
             </div>
