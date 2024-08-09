@@ -6,7 +6,7 @@ const { storeAadhaarDetails } = require("./src/services/aadharService");
 const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
+const CryptoJS = require('crypto-js');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
@@ -36,26 +36,38 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
         // Process the extracted text
         const extractedData = processExtractedTextAadhar(text);
 
-        console.log("Data: " + JSON.stringify(extractedData));
+        console.log("Data extracted from Aadhaar:", JSON.stringify(extractedData));
 
-        const encryptionKey = crypto.randomBytes(32);
+        const encryptionKey = process.env.ENCRYPTION_KEY;
 
         // Encrypt each field in the extracted data
         const encryptedData = {};
         for (const [key, value] of Object.entries(extractedData)) {
             if (value) {
-                const { iv, encryptedData: encData, authTag } = encryptText(value, encryptionKey);
-                encryptedData[key] = { iv, encryptedData: encData, authTag };
+                encryptedData[key] = encryptText(value, encryptionKey);
             }
         }
 
-        // console.log("Encrypted Data: " + JSON.stringify(encryptedData));
+        console.log("Encrypted Data:", JSON.stringify(encryptedData));
 
-        await storeAadhaarDetails(
-            extractedData
-        );
+        // Generate JWT token
+        const token = jwt.sign({ id: extractedData.aadhaarNumber }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const responsePayload = { data: extractedData, token };
 
-        // Delete the file after processing
+        // Send the response immediately
+        res.setHeader('Content-Type', 'application/json');
+        res.status(201).json(responsePayload);
+
+        // After sending the response, store the Aadhaar details asynchronously
+        storeAadhaarDetails(encryptedData)
+            .then(() => {
+                console.log('Aadhaar details stored successfully');
+            })
+            .catch((error) => {
+                console.error('Error storing Aadhaar details:', error);
+            });
+
+        // Delete the file after processing asynchronously
         fs.unlink(filePath, (err) => {
             if (err) {
                 console.error("Failed to delete the file:", err);
@@ -63,13 +75,7 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
                 console.log("File deleted successfully");
             }
         });
- 
-        const token = jwt.sign({ id: extractedData.aadhaarNumber }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        const responsePayload = { data: extractedData, token };
-        console.log('Sending response:', responsePayload);
 
-        res.setHeader('Content-Type', 'application/json');
-        res.status(201).json(responsePayload);
     } catch (error) {
         console.error("Error processing image:", error);
         res.status(500).json({ error: 'Error processing image' });
@@ -84,6 +90,8 @@ app.post('/api/upload/aadhar', upload.single('aadhaar'), async (req, res) => {
         });
     }
 });
+
+
 
 const processExtractedTextAadhar = (text) => {
     const lines = text.split('\n').map(line => line.trim()).filter(line => line);
@@ -168,29 +176,16 @@ const processExtractedTextAadhar = (text) => {
 
 };
 
+
 function encryptText(text, key) {
-    const iv = crypto.randomBytes(12); // Generate a new IV for each encryption
-    const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
-
-    let encrypted = cipher.update(text, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    const authTag = cipher.getAuthTag().toString('hex');
-
-    return {
-        iv: iv.toString('hex'),
-        encryptedData: encrypted,
-        authTag: authTag
-    };
+    const encrypted = CryptoJS.AES.encrypt(text, key).toString();
+    return encrypted;
 }
 
-// Decryption function
-function decryptText(encryptedData, key, iv, authTag) {
-    const decipher = crypto.createDecipheriv('aes-256-gcm', key, Buffer.from(iv, 'hex'));
-    decipher.setAuthTag(Buffer.from(authTag, 'hex'));
-
-    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
-    return decrypted;
+function decryptText(encryptedText, key) {
+    const bytes = CryptoJS.AES.decrypt(encryptedText, key);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    return decrypted;
 }
 
 app.get('/api/aadhar/details', async (req, res) => {

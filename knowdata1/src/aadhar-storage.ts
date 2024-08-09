@@ -9,7 +9,7 @@ import {
   UserAddressStored as UserAddressStoredEvent
 } from "../generated/aadharStorage/aadharStorage"
 import {
-  AadhaarNumberStored,
+  AadhaarNumberStored, 
   DobStored,
   FatherNameStored,
   GenderStored,
