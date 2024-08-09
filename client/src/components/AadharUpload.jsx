@@ -5,26 +5,30 @@ import { useNavigate } from 'react-router-dom';
 import { extractQrData } from '../utils/extractQrData';
 import { generateArgs, init, prove, artifactUrls } from '@anon-aadhaar/core';
 
-const anonAadhaarInitArgs = {
-    wasmURL: artifactUrls.V1.wasm,
-    zkeyURL: artifactUrls.V1.zkey,
-    vkeyURL: artifactUrls.V1.vk,
-    isWebEnv: true,
-};
-
-await init(anonAadhaarInitArgs);
-
 const AadhaarUpload = () => {
     const [file, setFile] = useState(null);
-    const navigate = useNavigate();
-
     const [qrData, setQrData] = useState('');
     const [args, setArgs] = useState(false);
     const [error, setError] = useState('');
     const [certificateContent, setCertificateContent] = useState('');
-
+    const navigate = useNavigate();
 
     useEffect(() => {
+        // Initialize anon-aadhaar core
+        const initAnonAadhaar = async () => {
+            try {
+                await init({
+                    wasmURL: artifactUrls.V1.wasm,
+                    zkeyURL: artifactUrls.V1.zkey,
+                    vkeyURL: artifactUrls.V1.vk,
+                    isWebEnv: true,
+                });
+            } catch (error) {
+                setError(`Initialization error: ${error.message}`);
+            }
+        };
+
+        // Fetch the certificate file
         const fetchCertificate = async () => {
             try {
                 const response = await fetch('/uidai_auth_prod.cer');
@@ -34,53 +38,51 @@ const AadhaarUpload = () => {
                 const text = await response.text();
                 setCertificateContent(text);
             } catch (error) {
-                setError(error.message);
+                setError(`Certificate fetch error: ${error.message}`);
             }
         };
 
+        initAnonAadhaar();
         fetchCertificate();
     }, []);
 
-const handleFileChange = async (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
- 
-    if (selectedFile) {
-        try {
-            const qrData = await extractQrData(selectedFile);
-            setQrData(qrData);
-            console.log('Extracted QR Data:', qrData);
+    const handleFileChange = async (e) => {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
 
-            const args = await generateArgs({
-                qrData,
-                certificateFile: certificateContent,
-                nullifierSeed: 1234,
-            });
+        if (selectedFile) {
+            try {
+                const extractedQrData = await extractQrData(selectedFile);
+                setQrData(extractedQrData);
+                console.log('Extracted QR Data:', extractedQrData);
 
-            if (args) {
-                console.log("Args Generated");
-                setArgs(true);
+                const generatedArgs = await generateArgs({
+                    qrData: extractedQrData,
+                    certificateFile: certificateContent,
+                    nullifierSeed: 1234,
+                });
+
+                if (generatedArgs) {
+                    console.log("Args Generated");
+                    setArgs(true);
+                }
+
+            } catch (error) {
+                setError(`QR Data extraction error: ${error.message}`);
             }
-
-        } catch (error) {
-            setError(error.message);
         }
-    }
-};
-
-
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            if (args) {
-                const data = await apiClient.uploadAadhaar(file);
-                console.log('Data uploaded successfully:', data);
-                navigate('/data', { state: { aadharData: data.data } });
-            }
+        if (!args) return;
 
+        try {
+            const data = await apiClient.uploadAadhaar(file);
+            console.log('Data uploaded successfully:', data);
+            navigate('/data', { state: { aadharData: data.data } });
         } catch (error) {
-            console.error('Error uploading file:', error);
+            setError(`File upload error: ${error.message}`);
         }
     };
 
@@ -89,7 +91,8 @@ const handleFileChange = async (e) => {
             <img src={up} alt='up' className='w-[500px] mb-6' />
             <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md mb-20'>
                 <h2 className='text-2xl font-semibold mb-4 text-center'>Upload Aadhaar Document</h2>
-                <form onSubmit={handleSubmit} className='flex flex-col items-center '>
+                {error && <p className='text-red-500 mb-4'>{error}</p>}
+                <form onSubmit={handleSubmit} className='flex flex-col items-center'>
                     <input
                         type="file"
                         onChange={handleFileChange}
@@ -103,7 +106,6 @@ const handleFileChange = async (e) => {
                     >
                         Upload
                     </button>
-
                 </form>
             </div>
         </div>
