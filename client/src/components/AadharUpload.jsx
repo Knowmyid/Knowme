@@ -5,13 +5,13 @@ import up from '../assets/up.png';
 import { useNavigate } from 'react-router-dom';
 import { extractQrData } from '../utils/extractQrData';
 
-
 const AadhaarUpload = () => {
     const [file, setFile] = useState(null);
     const [qrData, setQrData] = useState('');
     const [args, setArgs] = useState(false);
     const [error, setError] = useState('');
     const [certificateContent, setCertificateContent] = useState('');
+    const [loading, setLoading] = useState(false); // New loading state
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -78,12 +78,15 @@ const AadhaarUpload = () => {
         e.preventDefault();
         if (!args) return;
 
+        setLoading(true); // Set loading to true when upload starts
         try {
             const data = await apiClient.uploadAadhaar(file);
             console.log('Data uploaded successfully:', data);
             navigate('/data', { state: { aadharData: data.data } });
         } catch (error) {
             setError(`File upload error: ${error.message}`);
+        } finally {
+            setLoading(false); // Set loading to false when upload finishes
         }
     };
 
@@ -100,12 +103,12 @@ const AadhaarUpload = () => {
                         className='mb-4 p-2 border border-gray-300 rounded'
                     />
                     <button
-                        disabled={!args}
+                        disabled={!args || loading} // Disable button while loading
                         type="submit"
-                        className={`${!args ? 'bg-blue-300' : 'bg-blue-500 hover:bg-blue-600 cursor-pointer'
+                        className={`${!args || loading ? 'bg-blue-300' : 'bg-blue-500 hover:bg-blue-600 cursor-pointer'
                             } text-white p-2 rounded transition`}
                     >
-                        Upload
+                        {loading ? 'Uploading...' : 'Upload'} {/* Show 'Uploading...' while loading */}
                     </button>
                 </form>
             </div>
