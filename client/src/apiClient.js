@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:4000';
+const API_URL = 'https://knowme-server.onrender.com';
 
 export const uploadAadhaar = async (file) => {
     const formData = new FormData();
