@@ -4,15 +4,17 @@ import { fetchUserShares } from "../apiClient";
 import { decryptText } from '../utils/encryption'
 
 
-const key = process.env.VITE_ENCRYPTION_KEY;
+
 
 const UserDashboard = () => {
+
     const [shares, setShares] = useState([]);
     const [error, setError] = useState(null);
     const { user } = useAuth0();
     const email = user?.email;
 
     useEffect(() => {
+        const Ekey = import.meta.env.VITE_ENCRYPTION_KEY;
         const loadUserShares = async () => {
             try {
                 const data = await fetchUserShares(email);
@@ -26,7 +28,7 @@ const UserDashboard = () => {
                     // Loop through each field in sharedData and decrypt it except for email
                     Object.keys(decryptedData).forEach((key) => {
                         if (key !== "email") {
-                            decryptedData[key] = decryptText(decryptedData[key], key); // Replace with your actual key
+                            decryptedData[key] = decryptText(decryptedData[key], Ekey); // Replace with your actual key
                         }
                     });
 
