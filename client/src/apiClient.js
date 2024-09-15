@@ -1,4 +1,4 @@
-export const API_URL = 'https://knowme-server.onrender.com';
+export const API_URL = process.env.VITE_API_URL
 
 export const uploadAadhaar = async (formData) => {
 

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchUserShares } from "../apiClient";
-import { decryptText } from '../../../server/utils/encryption'
+import { decryptText } from '../utils/encryption'
 
 
-const key = 'Nq1SuH89Y0F1XNWWtYqGB8838fCI1JnSMw'; // Replace with your actual key
+const key = process.env.VITE_ENCRYPTION_KEY;
 
 const UserDashboard = () => {
     const [shares, setShares] = useState([]);
@@ -26,7 +26,7 @@ const UserDashboard = () => {
                     // Loop through each field in sharedData and decrypt it except for email
                     Object.keys(decryptedData).forEach((key) => {
                         if (key !== "email") {
-                            decryptedData[key] = decryptText(decryptedData[key], 'Nq1SuH89Y0F1XNWWtYqGB8838fCI1JnSMw'); // Replace with your actual key
+                            decryptedData[key] = decryptText(decryptedData[key], key); // Replace with your actual key
                         }
                     });
 
