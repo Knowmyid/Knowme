@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import MainContent from './MainContent';
 import DataRetrieve from './DataRetrieve';
 import AadhaarUpload from './AadharUpload';
-import HomePage from '../pages/HomePage';
+import HomePage from '../pages/homePage';
 import DisplayData from '../pages/DisplayData';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
