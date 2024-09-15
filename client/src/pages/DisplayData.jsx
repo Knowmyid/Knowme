@@ -28,7 +28,7 @@ const DisplayData = () => {
     }, [qrId]);
 
     if (!qrData) {
-        return <div>Loading...</div>;
+        return <div className="text-center text-white">Loading...</div>;
     }
 
     // Decrypt the sharedData
@@ -38,12 +38,12 @@ const DisplayData = () => {
     }, {});
 
     return (
-        <div className='text-white'>
-            <h2>QR Code Data</h2>
-            <p><strong>Scanned At:</strong> {new Date(qrData.scannedAt).toLocaleString()}</p>
+        <div className="bg-gray-800 text-white p-6 rounded-lg max-w-4xl mx-auto shadow-lg">
+            <h2 className="text-2xl font-bold mb-4">QR Code Data</h2>
+            <p className="text-lg mb-2"><strong>Scanned At:</strong> {new Date(qrData.scannedAt).toLocaleString()}</p>
             <div>
                 {Object.keys(decryptedData).map((key) => (
-                    <p key={key}><strong>{key}:</strong> {decryptedData[key]}</p>
+                    <p key={key} className="text-lg mb-1"><strong className="text-teal-400">{key}:</strong> {decryptedData[key]}</p>
                 ))}
             </div>
         </div>
