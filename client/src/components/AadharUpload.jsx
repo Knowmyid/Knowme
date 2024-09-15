@@ -4,6 +4,7 @@ import { generateArgs, init, prove, artifactUrls } from '@anon-aadhaar/core';
 import up from '../assets/up.png';
 import { useNavigate } from 'react-router-dom';
 import { extractQrData } from '../utils/extractQrData';
+import { useAuth0 } from "@auth0/auth0-react"; // Import Auth0 hook
 
 const AadhaarUpload = () => {
     const [file, setFile] = useState(null);
@@ -11,11 +12,11 @@ const AadhaarUpload = () => {
     const [args, setArgs] = useState(false);
     const [error, setError] = useState('');
     const [certificateContent, setCertificateContent] = useState('');
-    const [loading, setLoading] = useState(false); // New loading state
+    const [loading, setLoading] = useState(false); 
     const navigate = useNavigate();
+    const { isAuthenticated, loginWithRedirect, user } = useAuth0(); // Auth0
 
     useEffect(() => {
-        // Initialize anon-aadhaar core
         const initAnonAadhaar = async () => {
             try {
                 await init({
@@ -77,18 +78,39 @@ const AadhaarUpload = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!args) return;
-
-        setLoading(true); // Set loading to true when upload starts
+    
+        setLoading(true); 
         try {
-            const data = await apiClient.uploadAadhaar(file);
+            const formData = new FormData();
+            formData.append('aadhaar', file);
+            formData.append('email', user.email); 
+            formData.append('name', user.name); 
+    
+            const data = await apiClient.uploadAadhaar(formData);
             console.log('Data uploaded successfully:', data);
-            navigate('/data', { state: { aadharData: data.data } });
+            navigate('/user-dashboard', { state: { aadharData: data.data } });
         } catch (error) {
             setError(`File upload error: ${error.message}`);
         } finally {
-            setLoading(false); // Set loading to false when upload finishes
+            setLoading(false); 
         }
     };
+
+    if (!isAuthenticated) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-discount-gradient">
+                <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md flex flex-col items-center justify-center">
+                    <h2 className="text-2xl font-semibold mb-4 text-center" >Please Log In</h2>
+                    <button
+                        onClick={() => loginWithRedirect()}
+                        className="bg-blue-500 text-white p-2 rounded"
+                    >
+                        Log In with Auth0
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className='min-h-screen w-full h-[100vh] mx-auto p-4 flex flex-col md:flex-row items-center justify-center bg-discount-gradient'>
