@@ -16,7 +16,7 @@ export const trackScan = async (req, res) => {
 
         await newScan.save();
 
-        const finalUrl = `http://localhost:5173/user-dashboard`;
+        const finalUrl = `https://knowme-server.onrender.com/display-data/${qrId}`;
         res.redirect(finalUrl);
     } catch (error) {
         res.status(500).json({ error: 'Error logging QR scan.' });

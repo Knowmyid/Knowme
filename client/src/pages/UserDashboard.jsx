@@ -3,9 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { fetchUserShares } from "../apiClient";
 import { decryptText } from '../utils/encryption'
 
-
-
-
 const UserDashboard = () => {
 
     const [shares, setShares] = useState([]);

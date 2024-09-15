@@ -51,7 +51,7 @@ const DataRetrieve = () => {
       dataToShare.email = user.email;
 
       const uniqueId = uuidv4();
-      const middleUrl = `${API_URL}/track-scan/${uniqueId}?data=${encodeURIComponent(JSON.stringify(dataToShare))}`;
+      const middleUrl = `https://knowme-server.onrender.com/track-scan/${uniqueId}?data=${encodeURIComponent(JSON.stringify(dataToShare))}`;
       setQrData(middleUrl); 
     }
   };
