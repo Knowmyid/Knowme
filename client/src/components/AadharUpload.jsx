@@ -12,7 +12,7 @@ const AadhaarUpload = () => {
     const [args, setArgs] = useState(false);
     const [error, setError] = useState('');
     const [certificateContent, setCertificateContent] = useState('');
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { isAuthenticated, loginWithRedirect, user } = useAuth0(); // Auth0
 
@@ -30,7 +30,6 @@ const AadhaarUpload = () => {
             }
         };
 
-        // Fetch the certificate file
         const fetchCertificate = async () => {
             try {
                 const response = await fetch('/uidai_auth_prod.cer');
@@ -78,21 +77,21 @@ const AadhaarUpload = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!args) return;
-    
-        setLoading(true); 
+
+        setLoading(true);
         try {
             const formData = new FormData();
             formData.append('aadhaar', file);
-            formData.append('email', user.email); 
-            formData.append('name', user.name); 
-    
+            formData.append('email', user.email);
+            formData.append('name', user.name);
+
             const data = await apiClient.uploadAadhaar(formData);
             console.log('Data uploaded successfully:', data);
             navigate('/user-dashboard', { state: { aadharData: data.data } });
         } catch (error) {
             setError(`File upload error: ${error.message}`);
         } finally {
-            setLoading(false); 
+            setLoading(false);
         }
     };
 
@@ -113,24 +112,24 @@ const AadhaarUpload = () => {
     }
 
     return (
-        <div className='min-h-screen w-full h-[100vh] mx-auto p-4 flex flex-col md:flex-row items-center justify-center bg-discount-gradient'>
-            <img src={up} alt='up' className='w-[500px] mb-6' />
-            <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md mb-20'>
-                <h2 className='text-2xl font-semibold mb-4 text-center'>Upload Aadhaar Document</h2>
+        <div className='min-h-screen w-full flex flex-col items-center justify-center p-4 bg-discount-gradient'>
+            <img src={up} alt='up' className='w-full max-w-xs md:max-w-md mb-6' />
+            <div className='bg-white p-6 md:p-8 rounded-lg shadow-lg w-full max-w-md'>
+                <h2 className='text-xl md:text-2xl font-semibold mb-4 text-center'>Upload Aadhaar Document</h2>
                 {error && <p className='text-red-500 mb-4'>{error}</p>}
                 <form onSubmit={handleSubmit} className='flex flex-col items-center'>
                     <input
                         type="file"
                         onChange={handleFileChange}
-                        className='mb-4 p-2 border border-gray-300 rounded'
+                        className='mb-4 p-2 border border-gray-300 rounded w-full'
                     />
                     <button
-                        disabled={!args || loading} // Disable button while loading
+                        disabled={!args || loading}
                         type="submit"
                         className={`${!args || loading ? 'bg-blue-300' : 'bg-blue-500 hover:bg-blue-600 cursor-pointer'
-                            } text-white p-2 rounded transition`}
+                            } text-white p-2 rounded w-full transition`}
                     >
-                        {loading ? 'Uploading...' : 'Upload'} {/* Show 'Uploading...' while loading */}
+                        {loading ? 'Uploading...' : 'Upload'}
                     </button>
                 </form>
             </div>

@@ -58,7 +58,7 @@ const UserDashboard = () => {
 
     return (
         <div className="p-6 bg-gray-800 min-h-screen">
-            <h2 className="text-2xl font-bold mb-4 text-white">User Shares</h2>
+            <h2 className="text-2xl font-bold mb-4 text-white">User Logs</h2>
             {shares.length > 0 ? (
                 <ul className="space-y-4">
                     {shares.map((share) => (
